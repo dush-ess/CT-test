@@ -492,9 +492,11 @@
     async function computeAndSendResults() {
     console.log('Начинаем подсчёт результатов');
     
-    const skillStats = {};
-    let totalEarned = 0, totalMax = 0;
+    const skillScores = {};
+    let totalEarned = 0;
+    let totalMax = 0;
     
+    // Подсчёт баллов по каждому навыку
     for (let s of skills) {
         let earned = 0;
         for (let q of s.questions) {
@@ -503,12 +505,7 @@
         }
         totalEarned += earned;
         totalMax += s.questions.length;
-        skillStats[s.id] = {
-            name: s.name,
-            earned: earned,
-            max: s.questions.length,
-            percent: (earned / s.questions.length) * 100
-        };
+        skillScores[s.id] = earned;  // ← сохраняем ТОЛЬКО количество правильных ответов
     }
     
     const totalPercent = (totalEarned / totalMax) * 100;
@@ -522,20 +519,14 @@
         adviceMsg = 'Высокий результат! Отличное владение навыками.';
     }
     
-    // Формируем объект для отправки: баллы по каждому skill_id
-    const scoresForSheet = {};
-    for (let s of skills) {
-        scoresForSheet[s.id] = skillStats[s.id].earned;
-    }
-    
+    // ОДИН запрос со всеми данными
     const payload = {
         session_id: sessionId,
         total_score: totalEarned,
-        scores: scoresForSheet,
+        scores: skillScores,   // например: { causality: 2, fact_judgment: 3, ... }
         advice: adviceMsg
     };
     
-    // Отправляем ОДИН запрос со всеми данными
     try {
         await fetch(SCRIPT_URL, { 
             method: 'POST', 
@@ -543,18 +534,21 @@
             body: JSON.stringify(payload), 
             headers: { 'Content-Type': 'application/json' } 
         });
-        console.log('Данные отправлены в таблицу');
+        console.log('✅ Данные отправлены одной строкой');
     } catch(e) { 
         console.warn('Ошибка отправки:', e); 
     }
     
-    // Сохраняем результаты для отображения
-    const statsArray = Object.values(skillStats).map(stat => ({
-        name: stat.name,
-        earned: stat.earned,
-        max: stat.max,
-        percent: stat.percent
-    }));
+    // Формируем данные для отображения результатов пользователю
+    const statsArray = [];
+    for (let s of skills) {
+        statsArray.push({
+            name: s.name,
+            earned: skillScores[s.id],
+            max: s.questions.length,
+            percent: (skillScores[s.id] / s.questions.length) * 100
+        });
+    }
     
     resultsCache = { 
         stats: statsArray, 
