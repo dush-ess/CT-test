@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Опросник критического мышления</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -79,7 +78,7 @@
 <div class="container" id="app">Загрузка...</div>
 
 <script>
-    // ⚠️ ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШУ ИЗ APPS SCRIPT ⚠️
+    // ================= ВАША НОВАЯ ССЫЛКА =================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzN2qawmTASTz-Q7sKfQKBtssncDVnprJheUiHnwKaJyxgl8zy67YpS4I6HfxkyUuhM/exec';
     
     let skills = [];
@@ -98,10 +97,10 @@
                 skills = data;
                 render();
             } else {
-                app.innerHTML = '<div class="card"><div class="error">Нет вопросов в таблице</div></div>';
+                app.innerHTML = '<div class="card"><div class="error">Нет вопросов в таблице. Проверьте лист "questions".</div></div>';
             }
         } catch(e) {
-            app.innerHTML = '<div class="card"><div class="error">Ошибка загрузки. Проверьте интернет.</div></div>';
+            app.innerHTML = '<div class="card"><div class="error">Ошибка загрузки. Проверьте интернет или настройки Apps Script (доступ "Кто угодно").</div></div>';
         }
     }
     
@@ -116,7 +115,7 @@
             <div class="card">
                 <h1>🧠 Критическое мышление в биологии</h1>
                 <p>Тест оценивает ваши навыки критического мышления на основе вопросов по биологии.</p>
-                <p><strong>Формат:</strong> 8 блоков, в каждом блоке нужно ответить на все вопросы. В конце — подробные результаты.</p>
+                <p><strong>Формат:</strong> блоки вопросов, в каждом блоке нужно ответить на все вопросы. В конце — подробные результаты по каждому навыку.</p>
                 <div style="text-align: center; margin-top: 30px;">
                     <button id="startBtn">🚀 Начать тест</button>
                 </div>
@@ -312,7 +311,10 @@
                 mode: 'no-cors', 
                 body: JSON.stringify(payload)
             });
-        } catch(e) {}
+            console.log('Данные отправлены');
+        } catch(e) {
+            console.error('Ошибка отправки:', e);
+        }
         
         const statsArray = [];
         for (let s of skills) {
