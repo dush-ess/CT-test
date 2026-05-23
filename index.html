@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Опросник | Критическое мышление в биологии</title>
+    <title>Опросник | Критическое мышление</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif;
             background: #eef7fc;
             min-height: 100vh;
             position: relative;
         }
-
-        /* Биологический узор на фоне (клетки + ДНК) */
         body::before {
             content: "";
             position: fixed;
@@ -27,21 +20,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.08"><circle cx="30" cy="40" r="12" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="80" cy="90" r="18" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="150" cy="30" r="10" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="170" cy="130" r="15" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="40" cy="160" r="14" fill="none" stroke="%23008080" stroke-width="1"/><path d="M100 20 L110 30 L100 40 L110 50" fill="none" stroke="%23008080" stroke-width="1.2"/><path d="M20 120 L35 110 L45 125 L60 115" fill="none" stroke="%23008080" stroke-width="1"/><path d="M140 160 L155 150 L165 165 L180 155" fill="none" stroke="%23008080" stroke-width="1"/><path d="M70 20 L85 30 L70 40 L85 50" fill="none" stroke="%23008080" stroke-width="0.9"/><path d="M160 80 L170 90 L160 100" fill="none" stroke="%23008080" stroke-width="1.2"/><polygon points="120,140 128,148 120,156 112,148" fill="none" stroke="%23008080" stroke-width="0.8"/><polygon points="50,70 58,78 50,86 42,78" fill="none" stroke="%23008080" stroke-width="0.8"/><path d="M180 180 Q185 170 190 180" fill="none" stroke="%23008080" stroke-width="1"/><path d="M10 10 Q20 5 25 15" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="100" cy="100" r="22" fill="none" stroke="%23008080" stroke-width="0.7" stroke-dasharray="4 2"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.08"><circle cx="30" cy="40" r="12" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="80" cy="90" r="18" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="150" cy="30" r="10" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="170" cy="130" r="15" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="40" cy="160" r="14" fill="none" stroke="%23008080" stroke-width="1"/><path d="M100 20 L110 30 L100 40 L110 50" fill="none" stroke="%23008080" stroke-width="1.2"/><path d="M20 120 L35 110 L45 125 L60 115" fill="none" stroke="%23008080" stroke-width="1"/><path d="M140 160 L155 150 L165 165 L180 155" fill="none" stroke="%23008080" stroke-width="1"/></svg>');
             background-repeat: repeat;
             background-size: 180px;
             pointer-events: none;
             z-index: 0;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 24px 20px;
-            position: relative;
-            z-index: 1;
-        }
-
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; position: relative; z-index: 1; }
         .card {
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(3px);
@@ -50,237 +35,36 @@
             padding: 28px 32px;
             margin-bottom: 24px;
             border: 1px solid rgba(0, 150, 170, 0.25);
-            transition: all 0.2s;
         }
-
-        h1, h2, .skill-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: #0f6b7c;
-        }
-
-        h1 {
-            font-size: 2.1rem;
-            margin-bottom: 16px;
-        }
-
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 28px;
-            border-bottom: 2px solid #cae3ea;
-            padding-bottom: 12px;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 10px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            color: #2c6979;
-            cursor: pointer;
-            border-radius: 40px;
-            transition: all 0.2s;
-        }
-
-        .tab-btn:hover {
-            background: #c7e9f0;
-            color: #005f6b;
-        }
-
-        .tab-btn.active {
-            background: #1f8a9c;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .tab-content.active-tab {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .question {
-            background: #ffffffcc;
-            margin-bottom: 24px;
-            padding: 20px 22px;
-            border-radius: 28px;
-            border: 1px solid #cce7ef;
-            transition: 0.1s;
-        }
-
-        .question-text {
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.45;
-            color: #024d5c;
-            margin-bottom: 16px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-left: 8px;
-        }
-
-        .option {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 24px;
-            transition: background 0.15s;
-        }
-
-        .option:hover {
-            background: #d7f0f5;
-        }
-
-        .option input {
-            margin-top: 3px;
-            width: 18px;
-            height: 18px;
-            accent-color: #1f8a9c;
-            cursor: pointer;
-        }
-
-        .option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 0.94rem;
-            line-height: 1.4;
-            color: #145c6b;
-        }
-
-        button {
-            background: #1f8a9c;
-            border: none;
-            padding: 12px 28px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            color: white;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-
-        button:hover {
-            background: #0f6e7c;
-            transform: scale(0.97);
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
-
-        .btn-secondary {
-            background: #c8e2e9;
-            color: #005f6b;
-            box-shadow: none;
-        }
-
-        .btn-secondary:hover {
-            background: #b0d4de;
-            transform: none;
-        }
-
-        .progress-indicator {
-            text-align: center;
-            margin: 10px 0 20px;
-            font-weight: 500;
-            color: #1f8a9c;
-            background: #e0f4f8;
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 50px;
-            width: auto;
-        }
-
-        .total-badge {
-            text-align: center;
-            background: #c6e9ef;
-            padding: 20px;
-            border-radius: 44px;
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #003d48;
-            margin-bottom: 28px;
-        }
-
-        .skill-result {
-            margin-bottom: 26px;
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #055e6e;
-        }
-
-        .bar-bg {
-            background: #d4eaf0;
-            border-radius: 26px;
-            height: 26px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            background: linear-gradient(90deg, #1f8a9c, #4bb7ca);
-            width: 0%;
-            height: 100%;
-            border-radius: 26px;
-            transition: width 0.55s ease;
-        }
-
-        .advice {
-            background: #e2f3f7;
-            padding: 20px;
-            border-radius: 28px;
-            margin: 28px 0;
-            border-left: 6px solid #1f8a9c;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.7rem;
-            opacity: 0.6;
-            margin-top: 20px;
-        }
-
-        .error-msg {
-            background: #ffe0e0;
-            color: #b00020;
-            padding: 14px;
-            border-radius: 28px;
-            text-align: center;
-        }
-
-        @media (max-width: 680px) {
-            .card { padding: 20px; }
-            .tab-btn { padding: 6px 16px; font-size: 0.85rem; }
-        }
+        h1 { font-family: 'Playfair Display', serif; font-weight: 700; color: #0f6b7c; font-size: 2.1rem; margin-bottom: 16px; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid #cae3ea; padding-bottom: 12px; }
+        .tab-btn { background: transparent; border: none; padding: 10px 24px; font-size: 0.95rem; font-weight: 600; color: #2c6979; cursor: pointer; border-radius: 40px; transition: all 0.2s; }
+        .tab-btn:hover { background: #c7e9f0; color: #005f6b; }
+        .tab-btn.active { background: #1f8a9c; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .tab-content { display: none; animation: fadeIn 0.25s ease; }
+        .tab-content.active-tab { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .question { background: #ffffffcc; margin-bottom: 24px; padding: 20px 22px; border-radius: 28px; border: 1px solid #cce7ef; }
+        .question-text { font-weight: 600; font-size: 1rem; line-height: 1.45; color: #024d5c; margin-bottom: 16px; }
+        .options { display: flex; flex-direction: column; gap: 12px; padding-left: 8px; }
+        .option { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 24px; transition: background 0.15s; }
+        .option:hover { background: #d7f0f5; }
+        .option input { margin-top: 3px; width: 18px; height: 18px; accent-color: #1f8a9c; cursor: pointer; }
+        .option label { flex: 1; cursor: pointer; font-size: 0.94rem; line-height: 1.4; color: #145c6b; }
+        button { background: #1f8a9c; border: none; padding: 12px 28px; font-size: 0.95rem; font-weight: 600; color: white; border-radius: 50px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        button:hover { background: #0f6e7c; transform: scale(0.97); }
+        .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; flex-wrap: wrap; gap: 14px; }
+        .btn-secondary { background: #c8e2e9; color: #005f6b; box-shadow: none; }
+        .btn-secondary:hover { background: #b0d4de; transform: none; }
+        .progress-indicator { text-align: center; margin: 10px 0 20px; font-weight: 500; color: #1f8a9c; background: #e0f4f8; display: inline-block; padding: 6px 18px; border-radius: 50px; width: auto; }
+        .total-badge { text-align: center; background: #c6e9ef; padding: 20px; border-radius: 44px; font-size: 1.7rem; font-weight: 800; color: #003d48; margin-bottom: 28px; }
+        .skill-result { margin-bottom: 26px; }
+        .skill-header { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px; color: #055e6e; }
+        .bar-bg { background: #d4eaf0; border-radius: 26px; height: 26px; overflow: hidden; }
+        .bar-fill { background: linear-gradient(90deg, #1f8a9c, #4bb7ca); width: 0%; height: 100%; border-radius: 26px; transition: width 0.55s ease; }
+        .advice { background: #e2f3f7; padding: 20px; border-radius: 28px; margin: 28px 0; border-left: 6px solid #1f8a9c; }
+        footer { text-align: center; font-size: 0.7rem; opacity: 0.6; margin-top: 20px; }
+        .error-msg { background: #ffe0e0; color: #b00020; padding: 14px; border-radius: 28px; text-align: center; }
     </style>
 </head>
 <body>
@@ -309,7 +93,6 @@
                 app.innerHTML = `<div class="card"><div class="error-msg">❌ Вопросы не найдены. Проверьте Google Sheet.</div></div>`;
             }
         } catch(e) {
-            console.error(e);
             app.innerHTML = `<div class="card"><div class="error-msg">⚠️ Ошибка загрузки. Проверьте соединение.</div></div>`;
         }
     }
@@ -324,17 +107,13 @@
         app.innerHTML = `
             <div class="card">
                 <h1>🧬 Критическое мышление в биологии</h1>
-                <p style="font-size:1rem; line-height:1.5; margin-bottom: 20px;">Критическое мышление — это умение анализировать данные, видеть логические связи, проверять гипотезы и принимать обоснованные решения. В этом опроснике вас ждут вопросы по эмбриологии, паразитологии, генетике и научному методу.</p>
-                <p><strong>📌 Формат:</strong><br>
-                • 5 тематических блоков (вкладки)<br>
-                • Навигация «Назад» / «Далее»<br>
-                • Нельзя пропустить вопросы — система проверит<br>
-                • В конце — детальная статистика + советы по развитию навыков</p>
+                <p style="font-size:1rem; line-height:1.5; margin-bottom: 20px;">Критическое мышление — это умение анализировать данные, видеть логические связи, проверять гипотезы и принимать обоснованные решения.</p>
+                <p><strong>📌 Формат:</strong><br>• Тематические блоки (вкладки)<br>• Навигация «Назад» / «Далее»<br>• В конце — статистика + советы</p>
                 <div style="text-align: center; margin-top: 30px;">
                     <button id="startQuizAction">🔬 Начать опросник</button>
                 </div>
             </div>
-            <footer>Анонимно. Результаты сохраняются в таблицу только для аналитики</footer>
+            <footer>Анонимно. Результаты сохраняются в таблицу</footer>
         `;
         document.getElementById('startQuizAction')?.addEventListener('click', () => {
             page = 'quiz';
@@ -356,13 +135,14 @@
     
     function renderQuiz() {
         if (!skills.length) return;
-        // инициализация
+        
         for (let s of skills) {
             for (let q of s.questions) {
                 const key = `${s.id}_${q.id}`;
                 if (userAnswers[key] === undefined) userAnswers[key] = null;
             }
         }
+        
         const { total, answered } = countProgress();
         
         let tabsHtml = `<div class="tabs">`;
@@ -410,9 +190,8 @@
             </div>
         </div>`;
         
-        app.innerHTML = `<div class="card">${tabsHtml}${contents}${nav}</div><footer>Ответьте на все вопросы в каждом блоке. Кнопка "Завершить" появится в последнем разделе.</footer>`;
+        app.innerHTML = `<div class="card">${tabsHtml}${contents}${nav}</div><footer>Ответьте на все вопросы. Кнопка "Завершить" — в последнем разделе.</footer>`;
         
-        // radio listeners
         for (let s of skills) {
             for (let q of s.questions) {
                 const key = `${s.id}_${q.id}`;
@@ -420,7 +199,6 @@
                 radios.forEach(r => {
                     r.addEventListener('change', (e) => {
                         userAnswers[key] = e.target.value;
-                        // обновим индикатор прогресса без перерисовки всей страницы
                         const { total: t, answered: a } = countProgress();
                         const progDiv = document.querySelector('.progress-indicator');
                         if (progDiv) progDiv.innerText = `📋 Отвечено: ${a} из ${t}`;
@@ -429,7 +207,6 @@
             }
         }
         
-        // вкладки
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 currentTabIdx = parseInt(btn.dataset.idx);
@@ -473,110 +250,88 @@
             }
         });
         
-        document.getElementById('finishQuizBtn')?.addEventListener('click', async () => {
-            let allComplete = true;
-            for (let s of skills) {
-                for (let q of s.questions) {
-                    const key = `${s.id}_${q.id}`;
-                    if (!userAnswers[key]) { allComplete = false; break; }
+        const finishBtn = document.getElementById('finishQuizBtn');
+        if (finishBtn) {
+            finishBtn.addEventListener('click', () => {
+                let allComplete = true;
+                for (let s of skills) {
+                    for (let q of s.questions) {
+                        const key = `${s.id}_${q.id}`;
+                        if (!userAnswers[key]) { allComplete = false; break; }
+                    }
                 }
-            }
-            if (!allComplete) {
-                alert('❌ Вы ответили не на все вопросы. Проверьте каждый раздел.');
-                return;
-            }
-            await computeAndSendResults();
-        });
+                if (!allComplete) {
+                    alert('❌ Ответьте на все вопросы во всех разделах!');
+                    return;
+                }
+                computeAndSendResults();
+            });
+        }
     }
-    
-    console.log('📤 Отправляемые данные:', JSON.stringify(payload, null, 2));
     
     async function computeAndSendResults() {
-    console.log('📊 Начинаем подсчёт результатов');
-    
-    // Останавливаем повторные вызовы
-    if (window.isComputing) {
-        console.log('⏳ Уже идёт подсчёт, пропускаем');
-        return;
-    }
-    window.isComputing = true;
-    
-    const skillScores = {};
-    let totalEarned = 0;
-    let totalMax = 0;
-    
-    // Подсчёт баллов по каждому навыку
-    for (let s of skills) {
-        let earned = 0;
-        for (let q of s.questions) {
-            const key = `${s.id}_${q.id}`;
-            if (userAnswers[key] === q.correct) earned++;
+        console.log('📊 Начинаем подсчёт результатов');
+        
+        const skillScores = {};
+        let totalEarned = 0;
+        let totalMax = 0;
+        
+        for (let s of skills) {
+            let earned = 0;
+            for (let q of s.questions) {
+                const key = `${s.id}_${q.id}`;
+                if (userAnswers[key] === q.correct) earned++;
+            }
+            totalEarned += earned;
+            totalMax += s.questions.length;
+            skillScores[s.id] = earned;
+            console.log(`📌 ${s.id}: ${earned} из ${s.questions.length}`);
         }
-        totalEarned += earned;
-        totalMax += s.questions.length;
-        skillScores[s.id] = earned;
-        console.log(`📌 ${s.id}: ${earned} из ${s.questions.length}`);
+        
+        console.log('📦 skillScores для отправки:', skillScores);
+        
+        const totalPercent = (totalEarned / totalMax) * 100;
+        
+        let adviceMsg = '';
+        if (totalPercent < 40) adviceMsg = 'Низкий результат. Рекомендуем изучить основы критического мышления.';
+        else if (totalPercent < 70) adviceMsg = 'Средний результат. Есть потенциал для роста.';
+        else adviceMsg = 'Высокий результат! Отличное владение навыками.';
+        
+        const payload = {
+            session_id: sessionId,
+            total_score: totalEarned,
+            scores: skillScores,
+            advice: adviceMsg
+        };
+        
+        console.log('📤 Отправляемый payload:', JSON.stringify(payload, null, 2));
+        
+        try {
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload), 
+                headers: { 'Content-Type': 'application/json' } 
+            });
+            console.log('✅ Данные отправлены');
+        } catch(e) { 
+            console.error('❌ Ошибка:', e); 
+        }
+        
+        const statsArray = [];
+        for (let s of skills) {
+            statsArray.push({
+                name: s.name,
+                earned: skillScores[s.id],
+                max: s.questions.length,
+                percent: (skillScores[s.id] / s.questions.length) * 100
+            });
+        }
+        
+        resultsCache = { stats: statsArray, totalEarned, totalMax, totalPercent, adviceMsg, linksPart: '' };
+        page = 'results';
+        render();
     }
-    
-    console.log('📦 skillScores для отправки:', skillScores);
-    
-    const totalPercent = (totalEarned / totalMax) * 100;
-    
-    let adviceMsg = '';
-    if (totalPercent < 40) {
-        adviceMsg = 'Низкий результат. Рекомендуем изучить основы критического мышления.';
-    } else if (totalPercent < 70) {
-        adviceMsg = 'Средний результат. Есть потенциал для роста.';
-    } else {
-        adviceMsg = 'Высокий результат! Отличное владение навыками.';
-    }
-    
-    // ОДИН запрос со всеми данными
-    const payload = {
-        session_id: sessionId,
-        total_score: totalEarned,
-        scores: skillScores,
-        advice: adviceMsg
-    };
-    
-    console.log('📤 Отправляемый payload:', JSON.stringify(payload, null, 2));
-    
-    try {
-        await fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            mode: 'no-cors', 
-            body: JSON.stringify(payload), 
-            headers: { 'Content-Type': 'application/json' } 
-        });
-        console.log('✅ Данные отправлены одной строкой');
-    } catch(e) { 
-        console.error('❌ Ошибка отправки:', e); 
-    }
-    
-    // Формируем данные для отображения результатов пользователю
-    const statsArray = [];
-    for (let s of skills) {
-        statsArray.push({
-            name: s.name,
-            earned: skillScores[s.id],
-            max: s.questions.length,
-            percent: (skillScores[s.id] / s.questions.length) * 100
-        });
-    }
-    
-    resultsCache = { 
-        stats: statsArray, 
-        totalEarned, 
-        totalMax, 
-        totalPercent, 
-        adviceMsg,
-        linksPart: ''
-    };
-    page = 'results';
-    render();
-    
-    window.isComputing = false;
-}
     
     function renderResults() {
         if (!resultsCache) return;
@@ -589,19 +344,15 @@
                 </div>
             `;
         }
-        const html = `
+        app.innerHTML = `
             <div class="card">
                 <div class="total-badge">🎯 Общий результат: ${resultsCache.totalEarned} / ${resultsCache.totalMax} (${resultsCache.totalPercent.toFixed(1)}%)</div>
                 ${statsHtml}
-                <div class="advice">
-                    💬 ${resultsCache.adviceMsg}
-                    ${resultsCache.linksPart}
-                </div>
+                <div class="advice">💬 ${resultsCache.adviceMsg}</div>
                 <div style="text-align: center;"><button id="restartTestBtn">🔄 Пройти заново</button></div>
             </div>
             <footer>Результаты сохранены анонимно. Спасибо!</footer>
         `;
-        app.innerHTML = html;
         document.getElementById('restartTestBtn')?.addEventListener('click', () => {
             userAnswers = {};
             currentTabIdx = 0;
