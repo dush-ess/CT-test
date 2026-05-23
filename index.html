@@ -490,57 +490,83 @@
     }
     
     async function computeAndSendResults() {
-        const skillStats = [];
-        let totalEarned = 0, totalMax = 0;
-        for (let s of skills) {
-            let earned = 0;
-            for (let q of s.questions) {
-                const key = `${s.id}_${q.id}`;
-                if (userAnswers[key] === q.correct) earned++;
-            }
-            totalEarned += earned;
-            totalMax += s.questions.length;
-            skillStats.push({
-                name: s.name,
-                id: s.id,
-                earned: earned,
-                max: s.questions.length,
-                percent: (earned / s.questions.length) * 100
-            });
+    console.log('Начинаем подсчёт результатов');
+    
+    const skillStats = {};
+    let totalEarned = 0, totalMax = 0;
+    
+    for (let s of skills) {
+        let earned = 0;
+        for (let q of s.questions) {
+            const key = `${s.id}_${q.id}`;
+            if (userAnswers[key] === q.correct) earned++;
         }
-        const totalPercent = (totalEarned / totalMax) * 100;
-        
-        let adviceMsg = '';
-        let linksPart = '';
-        if (totalPercent < 40) {
-            adviceMsg = '🔍 Вам стоит углубиться в основы: анализируйте аргументы и проверяйте факты. Регулярная практика очень поможет.';
-            linksPart = `<div style="margin-top:12px;">📖 <a href="https://4brain.ru/blog/критическое-мышление/" target="_blank">Статья: развитие критического мышления</a></div>`;
-        } else if (totalPercent < 70) {
-            adviceMsg = '🎯 Хороший результат! Продолжайте тренироваться, обращайте внимание на логические ошибки и достоверность источников.';
-            linksPart = `<div style="margin-top:12px;">💡 Совет: практикуйте разбор научных текстов.</div>`;
-        } else {
-            adviceMsg = '🏆 Превосходно! Вы отлично применяете критическое мышление. Делитесь знаниями с коллегами!';
-            linksPart = `<div style="margin-top:12px;">🌟 Замечательная работа!</div>`;
-        }
-        
-        // отправка в Google Sheets (асинхронно)
-        for (let stat of skillStats) {
-            const payload = {
-                session_id: sessionId,
-                skill_id: stat.id,
-                score_percent: stat.percent,
-                total_score: totalEarned,
-                answers: []
-            };
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
-            } catch(e) { console.warn(e); }
-        }
-        
-        resultsCache = { stats: skillStats, totalEarned, totalMax, totalPercent, adviceMsg, linksPart };
-        page = 'results';
-        render();
+        totalEarned += earned;
+        totalMax += s.questions.length;
+        skillStats[s.id] = {
+            name: s.name,
+            earned: earned,
+            max: s.questions.length,
+            percent: (earned / s.questions.length) * 100
+        };
     }
+    
+    const totalPercent = (totalEarned / totalMax) * 100;
+    
+    let adviceMsg = '';
+    if (totalPercent < 40) {
+        adviceMsg = 'Низкий результат. Рекомендуем изучить основы критического мышления.';
+    } else if (totalPercent < 70) {
+        adviceMsg = 'Средний результат. Есть потенциал для роста.';
+    } else {
+        adviceMsg = 'Высокий результат! Отличное владение навыками.';
+    }
+    
+    // Формируем объект для отправки: баллы по каждому skill_id
+    const scoresForSheet = {};
+    for (let s of skills) {
+        scoresForSheet[s.id] = skillStats[s.id].earned;
+    }
+    
+    const payload = {
+        session_id: sessionId,
+        total_score: totalEarned,
+        scores: scoresForSheet,
+        advice: adviceMsg
+    };
+    
+    // Отправляем ОДИН запрос со всеми данными
+    try {
+        await fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify(payload), 
+            headers: { 'Content-Type': 'application/json' } 
+        });
+        console.log('Данные отправлены в таблицу');
+    } catch(e) { 
+        console.warn('Ошибка отправки:', e); 
+    }
+    
+    // Сохраняем результаты для отображения
+    const statsArray = Object.values(skillStats).map(stat => ({
+        name: stat.name,
+        earned: stat.earned,
+        max: stat.max,
+        percent: stat.percent
+    }));
+    
+    resultsCache = { 
+        stats: statsArray, 
+        totalEarned, 
+        totalMax, 
+        totalPercent, 
+        adviceMsg,
+        linksPart: ''
+    };
+    page = 'results';
+    render();
+}
     
     function renderResults() {
         if (!resultsCache) return;
