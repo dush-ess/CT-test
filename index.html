@@ -4,23 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Опросник критического мышления | Биология</title>
-    <!-- Подключаем шрифты из Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Raleway:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', 'Open Sans', sans-serif;
             background: #eef7fc;
             min-height: 100vh;
             position: relative;
         }
-
-        /* Тонкий узор на фоне */
         body::before {
             content: "";
             position: fixed;
@@ -33,16 +25,7 @@
             pointer-events: none;
             z-index: 0;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Карточки с эффектом стекла */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
         .card {
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(2px);
@@ -52,25 +35,12 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(0, 150, 170, 0.2);
         }
-
-        /* Стили для заголовков — ваши шрифты через Google Fonts */
         h1, h2, .skill-title, .tab-btn, .total-badge {
             font-family: 'Playfair Display', 'Raleway', 'Dancing Script', cursive;
             font-weight: 700;
         }
-
-        h1 {
-            font-size: 2.2rem;
-            color: #0f6b7c;
-            margin-bottom: 20px;
-        }
-
-        .skill-title {
-            font-size: 1.5rem;
-            color: #1f8a9c;
-        }
-
-        /* Вкладки */
+        h1 { font-size: 2.2rem; color: #0f6b7c; margin-bottom: 20px; }
+        .skill-title { font-size: 1.5rem; color: #1f8a9c; }
         .tabs {
             display: flex;
             flex-wrap: wrap;
@@ -79,7 +49,6 @@
             border-bottom: 2px solid #bcd9e2;
             padding-bottom: 10px;
         }
-
         .tab-btn {
             background: transparent;
             border: none;
@@ -91,224 +60,89 @@
             border-radius: 40px;
             transition: all 0.2s;
         }
-
-        .tab-btn:hover {
-            background: #c7e6ef;
-            color: #005f6b;
-        }
-
-        .tab-btn.active {
-            background: #1f8a9c;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fade 0.3s ease;
-        }
-
-        .tab-content.active-tab {
-            display: block;
-        }
-
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-
-        /* Вопросы */
+        .tab-btn:hover { background: #c7e6ef; color: #005f6b; }
+        .tab-btn.active { background: #1f8a9c; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .tab-content { display: none; animation: fade 0.3s ease; }
+        .tab-content.active-tab { display: block; }
+        @keyframes fade { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
         .question {
             background: #ffffffdd;
             margin-bottom: 24px;
             padding: 18px 20px;
             border-radius: 24px;
             border: 1px solid #cee9f0;
-            transition: 0.1s;
         }
-
-        .question-text {
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.4;
-            color: #024d5c;
-            margin-bottom: 14px;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-left: 12px;
-        }
-
-        .option {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 20px;
-            transition: background 0.15s;
-        }
-
-        .option:hover {
-            background: #d7f0f5;
-        }
-
-        .option input {
-            margin-top: 3px;
-            width: 18px;
-            height: 18px;
-            accent-color: #1f8a9c;
-            cursor: pointer;
-        }
-
-        .option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            color: #145c6b;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
+        .question-text { font-weight: 600; font-size: 1rem; line-height: 1.4; color: #024d5c; margin-bottom: 14px; }
+        .options { display: flex; flex-direction: column; gap: 12px; padding-left: 12px; }
+        .option { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 8px 12px; border-radius: 20px; transition: background 0.15s; }
+        .option:hover { background: #d7f0f5; }
+        .option input { margin-top: 3px; width: 18px; height: 18px; accent-color: #1f8a9c; cursor: pointer; }
+        .option label { flex: 1; cursor: pointer; font-size: 0.95rem; line-height: 1.4; color: #145c6b; }
         button {
             background: #1f8a9c;
             border: none;
             padding: 14px 32px;
             font-size: 1rem;
             font-weight: 600;
-            font-family: 'Inter', 'Open Sans', sans-serif;
             color: white;
             border-radius: 60px;
             cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
-        button:hover {
-            background: #0d6c7c;
-            transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .btn-secondary {
-            background: #c0dfe8;
-            color: #005766;
-            box-shadow: none;
-        }
-
-        .btn-secondary:hover {
-            background: #a9cfdb;
-        }
-
-        /* Результаты */
-        .skill-result {
-            margin-bottom: 24px;
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #055e6e;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
-        .bar-bg {
-            background: #d9eef3;
-            border-radius: 20px;
-            height: 24px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            background: linear-gradient(90deg, #1f8a9c, #41b6c9);
-            width: 0%;
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.6s ease;
-        }
-
-        .advice {
-            background: #e2f3f7;
-            padding: 18px;
-            border-radius: 24px;
-            margin: 20px 0;
-            border-left: 6px solid #1f8a9c;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
-        .total-badge {
-            text-align: center;
-            background: #b2dfe9;
-            padding: 16px;
-            border-radius: 40px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #003d48;
-            margin-bottom: 20px;
-        }
-
-        .start-page p {
-            line-height: 1.6;
-            color: #265f6b;
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.75rem;
-            margin-top: 20px;
-            opacity: 0.6;
-            font-family: 'Inter', 'Open Sans', sans-serif;
-        }
-
-        @media (max-width: 700px) {
-            .card { padding: 1.2rem; }
-            .tab-btn { padding: 8px 14px; font-size: 0.85rem; }
-        }
-
-        .error-msg {
-            background: #ffe0e0;
-            color: #b00020;
-            padding: 12px;
-            border-radius: 28px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
+        button:hover { background: #0d6c7c; transform: scale(0.98); }
+        .btn-group { display: flex; justify-content: space-between; margin-top: 30px; gap: 16px; flex-wrap: wrap; }
+        .btn-group-left { display: flex; gap: 12px; }
+        .btn-group-right { display: flex; gap: 12px; }
+        .btn-secondary { background: #c0dfe8; color: #005766; box-shadow: none; }
+        .btn-secondary:hover { background: #a9cfdb; transform: none; }
+        .skill-result { margin-bottom: 24px; }
+        .skill-header { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px; color: #055e6e; }
+        .bar-bg { background: #d9eef3; border-radius: 20px; height: 24px; overflow: hidden; }
+        .bar-fill { background: linear-gradient(90deg, #1f8a9c, #41b6c9); width: 0%; height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+        .advice { background: #e2f3f7; padding: 18px; border-radius: 24px; margin: 20px 0; border-left: 6px solid #1f8a9c; }
+        .total-badge { text-align: center; background: #b2dfe9; padding: 16px; border-radius: 40px; font-size: 1.5rem; font-weight: 800; color: #003d48; margin-bottom: 20px; }
+        .start-page p { line-height: 1.6; color: #265f6b; margin-bottom: 20px; font-size: 1.05rem; }
+        .progress-indicator { text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: #1f8a9c; font-weight: 500; }
+        footer { text-align: center; font-size: 0.75rem; margin-top: 20px; opacity: 0.6; }
+        @media (max-width: 700px) { .card { padding: 1.2rem; } .tab-btn { padding: 8px 14px; font-size: 0.85rem; } .btn-group { flex-direction: column; } .btn-group-left, .btn-group-right { width: 100%; justify-content: center; } }
+        .error-msg { background: #ffe0e0; color: #b00020; padding: 12px; border-radius: 28px; text-align: center; margin-bottom: 16px; }
+        .success-msg { background: #d4edda; color: #155724; padding: 12px; border-radius: 28px; text-align: center; margin-bottom: 16px; }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .spinner { width: 50px; height: 50px; border: 5px solid white; border-top-color: #1f8a9c; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 <div class="container" id="app"></div>
 
 <script>
-    // ======================= ВАША ССЫЛКА НА GOOGLE SCRIPT =======================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxMBdiguzixpVtVeBAUkdkeMqAiK74Mde0ZWSAnyz2jFShG8RlRu-vhIyIfCvpX_OW/exec';
     
-    // Глобальные переменные
     let skills = [];
     let userAnswers = {};
+    let currentTabIndex = 0;
     let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
     let currentPage = 'start';
     let resultsData = null;
     
     const app = document.getElementById('app');
     
+    function showLoading() {
+        const loader = document.createElement('div');
+        loader.id = 'loadingOverlay';
+        loader.className = 'loading-overlay';
+        loader.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(loader);
+    }
+    
+    function hideLoading() {
+        const loader = document.getElementById('loadingOverlay');
+        if (loader) loader.remove();
+    }
+    
     async function loadQuestions() {
+        showLoading();
         try {
             const res = await fetch(SCRIPT_URL);
             if (!res.ok) throw new Error('Ошибка сети');
@@ -323,6 +157,7 @@
             console.error(err);
             app.innerHTML = '<div class="card"><div class="error-msg">❌ Не удалось загрузить вопросы. Проверьте интернет и CORS.</div></div>';
         }
+        hideLoading();
     }
     
     function renderCurrentPage() {
@@ -337,8 +172,8 @@
                 <h1>🧠 Критическое мышление в биологии</h1>
                 <p>Критическое мышление — это способность анализировать информацию, оценивать доказательства, выявлять логические связи и принимать обоснованные решения. В этом опроснике вас ждут вопросы по эмбриологии, паразитологии, генетике и методологии науки.</p>
                 <p>📌 <strong>Как проходит тест:</strong><br>
-                • 5 тематических блоков (вкладки), отвечать на вопросы нужно последовательно<br>
-                • Нельзя пропускать — перед отправкой проверим все ответы<br>
+                • Тематические блоки, переключайтесь с помощью кнопок «Далее» и «Назад»<br>
+                • Нельзя пропускать вопросы — перед отправкой проверим все ответы<br>
                 • После завершения — подробная статистика и персональные советы<br>
                 • Результаты анонимны, данные уходят в защищённую таблицу.
                 </p>
@@ -349,25 +184,46 @@
             <footer>Ваши ответы сохраняются только для аналитики навыков</footer>
         `;
         document.getElementById('startQuizBtn')?.addEventListener('click', () => {
+            currentTabIndex = 0;
             currentPage = 'quiz';
             renderCurrentPage();
         });
     }
     
+    function updateProgressIndicator() {
+        const totalQuestions = skills.reduce((sum, s) => sum + s.questions.length, 0);
+        const answeredCount = Object.values(userAnswers).filter(v => v !== null && v !== undefined).length;
+        const indicator = document.querySelector('.progress-indicator');
+        if (indicator) {
+            indicator.innerHTML = `📋 Отвечено: ${answeredCount} из ${totalQuestions} вопросов`;
+            if (answeredCount === totalQuestions) {
+                indicator.style.color = '#0d7c5e';
+                indicator.style.fontWeight = 'bold';
+            } else {
+                indicator.style.color = '#1f8a9c';
+            }
+        }
+    }
+    
     function renderQuizPage() {
         if (!skills.length) return;
+        
         for (let s of skills) {
             for (let q of s.questions) {
                 const key = `${s.id}_${q.id}`;
-                if (!userAnswers[key]) userAnswers[key] = null;
+                if (userAnswers[key] === undefined) userAnswers[key] = null;
             }
         }
         
+        const totalQuestions = skills.reduce((sum, s) => sum + s.questions.length, 0);
+        const answeredCount = Object.values(userAnswers).filter(v => v !== null && v !== undefined).length;
+        
         let tabsHtml = `<div class="tabs" id="tabsContainer">`;
         skills.forEach((skill, idx) => {
-            tabsHtml += `<button class="tab-btn ${idx === 0 ? 'active' : ''}" data-tab="${skill.id}">${skill.name}</button>`;
+            tabsHtml += `<button class="tab-btn ${idx === currentTabIndex ? 'active' : ''}" data-tab-index="${idx}">${skill.name}</button>`;
         });
         tabsHtml += `</div>`;
+        tabsHtml += `<div class="progress-indicator">📋 Отвечено: ${answeredCount} из ${totalQuestions} вопросов</div>`;
         
         let contentsHtml = '';
         skills.forEach((skill, idx) => {
@@ -375,14 +231,14 @@
             skill.questions.forEach((q, qIdx) => {
                 const saved = userAnswers[`${skill.id}_${q.id}`];
                 questionsHtml += `
-                    <div class="question" data-qid="${skill.id}_${q.id}">
+                    <div class="question">
                         <div class="question-text">${qIdx+1}. ${q.text}</div>
                         <div class="options">
                             ${q.options.map((opt, optIdx) => {
                                 const letter = String.fromCharCode(65+optIdx);
                                 const checkedAttr = (saved === letter) ? 'checked' : '';
                                 return `
-                                    <div class="option" data-letter="${letter}">
+                                    <div class="option">
                                         <input type="radio" name="${skill.id}_${q.id}" value="${letter}" id="${skill.id}_${q.id}_${letter}" ${checkedAttr}>
                                         <label for="${skill.id}_${q.id}_${letter}"><strong>${letter}.</strong> ${opt}</label>
                                     </div>
@@ -392,28 +248,26 @@
                     </div>
                 `;
             });
-            contentsHtml += `<div class="tab-content ${idx === 0 ? 'active-tab' : ''}" id="tab-${skill.id}">${questionsHtml}</div>`;
+            contentsHtml += `<div class="tab-content ${idx === currentTabIndex ? 'active-tab' : ''}" id="tab-${skill.id}">${questionsHtml}</div>`;
         });
         
-        const btnGroup = `
+        const isFirst = currentTabIndex === 0;
+        const isLast = currentTabIndex === skills.length - 1;
+        
+        const navButtons = `
             <div class="btn-group">
-                <button id="submitQuizBtn">✅ Завершить и получить результат</button>
-                <button id="resetAnswersBtn" class="btn-secondary">⟳ Сбросить все ответы</button>
+                <div class="btn-group-left">
+                    <button id="resetAnswersBtn" class="btn-secondary">⟳ Сбросить все ответы</button>
+                </div>
+                <div class="btn-group-right">
+                    ${!isFirst ? '<button id="prevTabBtn">◀ Назад</button>' : ''}
+                    ${!isLast ? '<button id="nextTabBtn">Далее ▶</button>' : ''}
+                    ${isLast ? '<button id="submitQuizBtn" style="background: #0d7c5e;">✅ Завершить и получить результаты</button>' : ''}
+                </div>
             </div>
         `;
         
-        app.innerHTML = `<div class="card">${tabsHtml}${contentsHtml}${btnGroup}</div><footer>Выберите ответ в каждом вопросе. После отправки результаты появятся на новой странице.</footer>`;
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const targetId = btn.dataset.tab;
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
-                const activeTab = document.getElementById(`tab-${targetId}`);
-                if (activeTab) activeTab.classList.add('active-tab');
-            });
-        });
+        app.innerHTML = `<div class="card">${tabsHtml}${contentsHtml}${navButtons}</div><footer>Ответьте на все вопросы в каждом блоке. Результаты появятся после отправки.</footer>`;
         
         for (let skill of skills) {
             for (let q of skill.questions) {
@@ -422,42 +276,94 @@
                     radio.addEventListener('change', (e) => {
                         const key = `${skill.id}_${q.id}`;
                         userAnswers[key] = e.target.value;
+                        updateProgressIndicator();
                     });
                 });
             }
         }
         
-        document.getElementById('resetAnswersBtn')?.addEventListener('click', () => {
-            for (let skill of skills) {
-                for (let q of skill.questions) {
-                    const key = `${skill.id}_${q.id}`;
-                    userAnswers[key] = null;
-                    const radios = document.querySelectorAll(`input[name="${skill.id}_${q.id}"]`);
-                    radios.forEach(r => r.checked = false);
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.dataset.tabIndex);
+                if (!isNaN(idx)) {
+                    currentTabIndex = idx;
+                    renderQuizPage();
                 }
+            });
+        });
+        
+        document.getElementById('resetAnswersBtn')?.addEventListener('click', () => {
+            if (confirm('Вы уверены? Все ответы будут удалены.')) {
+                for (let skill of skills) {
+                    for (let q of skill.questions) {
+                        const key = `${skill.id}_${q.id}`;
+                        userAnswers[key] = null;
+                    }
+                }
+                renderQuizPage();
             }
         });
         
-        document.getElementById('submitQuizBtn')?.addEventListener('click', () => {
-            let allAnswered = true;
-            for (let skill of skills) {
-                for (let q of skill.questions) {
-                    const key = `${skill.id}_${q.id}`;
+        const prevBtn = document.getElementById('prevTabBtn');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentTabIndex > 0) {
+                    currentTabIndex--;
+                    renderQuizPage();
+                }
+            });
+        }
+        
+        const nextBtn = document.getElementById('nextTabBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const currentSkill = skills[currentTabIndex];
+                let allAnsweredInCurrent = true;
+                let unansweredQuestions = [];
+                for (let q of currentSkill.questions) {
+                    const key = `${currentSkill.id}_${q.id}`;
                     if (!userAnswers[key]) {
-                        allAnswered = false;
-                        break;
+                        allAnsweredInCurrent = false;
+                        unansweredQuestions.push(q.text.substring(0, 50));
                     }
                 }
-            }
-            if (!allAnswered) {
-                alert('❌ Пожалуйста, ответьте на все вопросы в каждом блоке (переключите вкладки и проверьте).');
-                return;
-            }
-            calculateAndSendResults();
-        });
+                if (!allAnsweredInCurrent) {
+                    alert(`❌ Ответьте на все вопросы в блоке «${currentSkill.name}» перед переходом дальше.\n\nНе отвечены: ${unansweredQuestions.length} вопрос(ов)`);
+                    return;
+                }
+                if (currentTabIndex < skills.length - 1) {
+                    currentTabIndex++;
+                    renderQuizPage();
+                }
+            });
+        }
+        
+        const submitBtn = document.getElementById('submitQuizBtn');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', async () => {
+                let allAnswered = true;
+                let totalUnanswered = 0;
+                for (let skill of skills) {
+                    for (let q of skill.questions) {
+                        const key = `${skill.id}_${q.id}`;
+                        if (!userAnswers[key]) {
+                            allAnswered = false;
+                            totalUnanswered++;
+                        }
+                    }
+                }
+                if (!allAnswered) {
+                    alert(`❌ Вы ответили не на все вопросы! Осталось ${totalUnanswered} вопрос(ов). Переключите вкладки и проверьте.`);
+                    return;
+                }
+                await calculateAndSendResults();
+            });
+        }
     }
     
     async function calculateAndSendResults() {
+        showLoading();
+        
         const skillScores = [];
         let totalEarned = 0, totalMax = 0;
         
@@ -499,6 +405,7 @@
             linksHtml = `<div style="margin-top:12px;">🌟 Отличная работа! Вы можете стать наставником для коллег.</div>`;
         }
         
+        // Отправка данных (без ожидания ответа, т.к. mode: 'no-cors')
         for (let skillScore of skillScores) {
             const answersDetail = [];
             const skillObj = skills.find(s => s.id === skillScore.id);
@@ -528,6 +435,7 @@
         
         resultsData = { totalEarned, totalMax, totalPercent, skillScores, adviceText, linksHtml };
         currentPage = 'results';
+        hideLoading();
         renderCurrentPage();
     }
     
@@ -551,7 +459,7 @@
                     <strong>💬 ${data.adviceText}</strong>
                     ${data.linksHtml}
                 </div>
-                <div class="btn-group">
+                <div style="text-align: center; margin-top: 20px;">
                     <button id="restartBtn">🔄 Пройти тест заново</button>
                 </div>
             </div>
@@ -561,6 +469,7 @@
         document.getElementById('restartBtn')?.addEventListener('click', () => {
             userAnswers = {};
             sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            currentTabIndex = 0;
             currentPage = 'start';
             renderCurrentPage();
         });
