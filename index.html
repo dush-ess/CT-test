@@ -492,7 +492,14 @@
     console.log('📤 Отправляемые данные:', JSON.stringify(payload, null, 2));
     
     async function computeAndSendResults() {
-    console.log('Начинаем подсчёт результатов');
+    console.log('📊 Начинаем подсчёт результатов');
+    
+    // Останавливаем повторные вызовы
+    if (window.isComputing) {
+        console.log('⏳ Уже идёт подсчёт, пропускаем');
+        return;
+    }
+    window.isComputing = true;
     
     const skillScores = {};
     let totalEarned = 0;
@@ -507,8 +514,11 @@
         }
         totalEarned += earned;
         totalMax += s.questions.length;
-        skillScores[s.id] = earned;  // ← сохраняем ТОЛЬКО количество правильных ответов
+        skillScores[s.id] = earned;
+        console.log(`📌 ${s.id}: ${earned} из ${s.questions.length}`);
     }
+    
+    console.log('📦 skillScores для отправки:', skillScores);
     
     const totalPercent = (totalEarned / totalMax) * 100;
     
@@ -525,9 +535,11 @@
     const payload = {
         session_id: sessionId,
         total_score: totalEarned,
-        scores: skillScores,   // например: { causality: 2, fact_judgment: 3, ... }
+        scores: skillScores,
         advice: adviceMsg
     };
+    
+    console.log('📤 Отправляемый payload:', JSON.stringify(payload, null, 2));
     
     try {
         await fetch(SCRIPT_URL, { 
@@ -538,7 +550,7 @@
         });
         console.log('✅ Данные отправлены одной строкой');
     } catch(e) { 
-        console.warn('Ошибка отправки:', e); 
+        console.error('❌ Ошибка отправки:', e); 
     }
     
     // Формируем данные для отображения результатов пользователю
@@ -562,6 +574,8 @@
     };
     page = 'results';
     render();
+    
+    window.isComputing = false;
 }
     
     function renderResults() {
