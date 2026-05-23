@@ -2,173 +2,284 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Опросник критического мышления</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Опросник | Критическое мышление в биологии</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #e0f2f1;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #eef7fc;
             min-height: 100vh;
-            padding: 20px;
+            position: relative;
         }
+
+        /* Биологический узор на фоне (клетки + ДНК) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.08"><circle cx="30" cy="40" r="12" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="80" cy="90" r="18" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="150" cy="30" r="10" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="170" cy="130" r="15" fill="none" stroke="%23008080" stroke-width="0.8"/><circle cx="40" cy="160" r="14" fill="none" stroke="%23008080" stroke-width="1"/><path d="M100 20 L110 30 L100 40 L110 50" fill="none" stroke="%23008080" stroke-width="1.2"/><path d="M20 120 L35 110 L45 125 L60 115" fill="none" stroke="%23008080" stroke-width="1"/><path d="M140 160 L155 150 L165 165 L180 155" fill="none" stroke="%23008080" stroke-width="1"/><path d="M70 20 L85 30 L70 40 L85 50" fill="none" stroke="%23008080" stroke-width="0.9"/><path d="M160 80 L170 90 L160 100" fill="none" stroke="%23008080" stroke-width="1.2"/><polygon points="120,140 128,148 120,156 112,148" fill="none" stroke="%23008080" stroke-width="0.8"/><polygon points="50,70 58,78 50,86 42,78" fill="none" stroke="%23008080" stroke-width="0.8"/><path d="M180 180 Q185 170 190 180" fill="none" stroke="%23008080" stroke-width="1"/><path d="M10 10 Q20 5 25 15" fill="none" stroke="%23008080" stroke-width="1"/><circle cx="100" cy="100" r="22" fill="none" stroke="%23008080" stroke-width="0.7" stroke-dasharray="4 2"/></svg>');
+            background-repeat: repeat;
+            background-size: 180px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 24px 20px;
+            position: relative;
+            z-index: 1;
         }
+
         .card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(3px);
+            border-radius: 36px;
+            box-shadow: 0 20px 40px -12px rgba(0, 80, 100, 0.25);
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 150, 170, 0.25);
+            transition: all 0.2s;
         }
+
+        h1, h2, .skill-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #0f6b7c;
+        }
+
         h1 {
-            color: #00695c;
-            margin-bottom: 20px;
+            font-size: 2.1rem;
+            margin-bottom: 16px;
         }
+
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
-            border-bottom: 2px solid #b2dfdb;
-            padding-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #cae3ea;
+            padding-bottom: 12px;
         }
+
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: #2c6979;
             cursor: pointer;
-            border-radius: 25px;
-            transition: 0.3s;
+            border-radius: 40px;
+            transition: all 0.2s;
         }
+
         .tab-btn:hover {
-            background: #b2dfdb;
+            background: #c7e9f0;
+            color: #005f6b;
         }
+
         .tab-btn.active {
-            background: #00695c;
+            background: #1f8a9c;
             color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
+
         .tab-content {
             display: none;
+            animation: fadeIn 0.25s ease;
         }
+
         .tab-content.active-tab {
             display: block;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .question {
-            background: #f5f5f5;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 15px;
+            background: #ffffffcc;
+            margin-bottom: 24px;
+            padding: 20px 22px;
+            border-radius: 28px;
+            border: 1px solid #cce7ef;
+            transition: 0.1s;
         }
+
         .question-text {
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1.45;
+            color: #024d5c;
+            margin-bottom: 16px;
         }
+
         .options {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding-left: 15px;
+            gap: 12px;
+            padding-left: 8px;
         }
+
         .option {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 12px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 10px;
+            padding: 8px 12px;
+            border-radius: 24px;
+            transition: background 0.15s;
         }
+
         .option:hover {
-            background: #e0e0e0;
+            background: #d7f0f5;
         }
+
         .option input {
+            margin-top: 3px;
             width: 18px;
             height: 18px;
+            accent-color: #1f8a9c;
             cursor: pointer;
         }
+
         .option label {
-            cursor: pointer;
             flex: 1;
-        }
-        button {
-            background: #00695c;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 30px;
             cursor: pointer;
-            margin: 5px;
+            font-size: 0.94rem;
+            line-height: 1.4;
+            color: #145c6b;
         }
+
+        button {
+            background: #1f8a9c;
+            border: none;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
         button:hover {
-            background: #004d40;
+            background: #0f6e7c;
+            transform: scale(0.97);
         }
+
         .btn-group {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 14px;
         }
+
         .btn-secondary {
-            background: #80cbc4;
-            color: #004d40;
+            background: #c8e2e9;
+            color: #005f6b;
+            box-shadow: none;
         }
+
         .btn-secondary:hover {
-            background: #4db6ac;
+            background: #b0d4de;
+            transform: none;
         }
-        .progress {
+
+        .progress-indicator {
             text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #00695c;
+            margin: 10px 0 20px;
+            font-weight: 500;
+            color: #1f8a9c;
+            background: #e0f4f8;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            width: auto;
         }
-        .result-item {
-            margin-bottom: 20px;
+
+        .total-badge {
+            text-align: center;
+            background: #c6e9ef;
+            padding: 20px;
+            border-radius: 44px;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #003d48;
+            margin-bottom: 28px;
         }
-        .bar {
-            background: #e0e0e0;
-            height: 25px;
-            border-radius: 12px;
-            margin-top: 5px;
+
+        .skill-result {
+            margin-bottom: 26px;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #055e6e;
+        }
+
+        .bar-bg {
+            background: #d4eaf0;
+            border-radius: 26px;
+            height: 26px;
             overflow: hidden;
         }
+
         .bar-fill {
-            background: #00695c;
-            height: 100%;
+            background: linear-gradient(90deg, #1f8a9c, #4bb7ca);
             width: 0%;
-            transition: width 0.5s;
+            height: 100%;
+            border-radius: 26px;
+            transition: width 0.55s ease;
         }
+
         .advice {
-            background: #e0f2f1;
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px 0;
+            background: #e2f3f7;
+            padding: 20px;
+            border-radius: 28px;
+            margin: 28px 0;
+            border-left: 6px solid #1f8a9c;
         }
-        .total {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+
         footer {
             text-align: center;
-            font-size: 12px;
-            color: #666;
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-top: 20px;
         }
-        .error {
-            background: #ffcdd2;
-            color: #c62828;
-            padding: 10px;
-            border-radius: 10px;
+
+        .error-msg {
+            background: #ffe0e0;
+            color: #b00020;
+            padding: 14px;
+            border-radius: 28px;
             text-align: center;
-            margin-bottom: 15px;
+        }
+
+        @media (max-width: 680px) {
+            .card { padding: 20px; }
+            .tab-btn { padding: 6px 16px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -179,110 +290,104 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxMBdiguzixpVtVeBAUkdkeMqAiK74Mde0ZWSAnyz2jFShG8RlRu-vhIyIfCvpX_OW/exec';
     
     let skills = [];
-    let answers = {};
-    let currentTab = 0;
+    let userAnswers = {};
+    let currentTabIdx = 0;
     let page = 'start';
-    let results = null;
-    let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-    
+    let resultsCache = null;
+    let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
     const app = document.getElementById('app');
     
-    async function loadQuestions() {
+    async function fetchQuestions() {
         try {
             const res = await fetch(SCRIPT_URL);
+            if (!res.ok) throw new Error('fetch fail');
             const data = await res.json();
             if (data && data.length) {
                 skills = data;
                 render();
             } else {
-                app.innerHTML = '<div class="card"><div class="error">Нет вопросов в таблице</div></div>';
+                app.innerHTML = `<div class="card"><div class="error-msg">❌ Вопросы не найдены. Проверьте Google Sheet.</div></div>`;
             }
         } catch(e) {
-            app.innerHTML = '<div class="card"><div class="error">Ошибка загрузки вопросов</div></div>';
+            console.error(e);
+            app.innerHTML = `<div class="card"><div class="error-msg">⚠️ Ошибка загрузки. Проверьте соединение.</div></div>`;
         }
     }
     
     function render() {
         if (page === 'start') renderStart();
         else if (page === 'quiz') renderQuiz();
-        else if (page === 'results') renderResults();
+        else if (page === 'results' && resultsCache) renderResults();
     }
     
     function renderStart() {
         app.innerHTML = `
             <div class="card">
-                <h1>🧠 Критическое мышление в биологии</h1>
-                <p>Критическое мышление — это способность анализировать информацию, оценивать доказательства и принимать обоснованные решения.</p>
-                <p><strong>Как работает тест:</strong></p>
-                <ul style="margin-left: 20px; margin-bottom: 20px;">
-                    <li>5 блоков вопросов</li>
-                    <li>Переключайтесь кнопками "Далее" и "Назад"</li>
-                    <li>Нельзя пропускать вопросы</li>
-                    <li>В конце — подробные результаты и советы</li>
-                </ul>
-                <div style="text-align: center;">
-                    <button id="startBtn">🚀 Начать тест</button>
+                <h1>🧬 Критическое мышление в биологии</h1>
+                <p style="font-size:1rem; line-height:1.5; margin-bottom: 20px;">Критическое мышление — это умение анализировать данные, видеть логические связи, проверять гипотезы и принимать обоснованные решения. В этом опроснике вас ждут вопросы по эмбриологии, паразитологии, генетике и научному методу.</p>
+                <p><strong>📌 Формат:</strong><br>
+                • 5 тематических блоков (вкладки)<br>
+                • Навигация «Назад» / «Далее»<br>
+                • Нельзя пропустить вопросы — система проверит<br>
+                • В конце — детальная статистика + советы по развитию навыков</p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button id="startQuizAction">🔬 Начать опросник</button>
                 </div>
             </div>
-            <footer>Результаты анонимно сохраняются в Google Таблицу</footer>
+            <footer>Анонимно. Результаты сохраняются в таблицу только для аналитики</footer>
         `;
-        document.getElementById('startBtn')?.addEventListener('click', () => {
+        document.getElementById('startQuizAction')?.addEventListener('click', () => {
             page = 'quiz';
             render();
         });
     }
     
-    function renderQuiz() {
-        if (!skills.length) return;
-        
-        // Инициализация ответов
-        for (let s of skills) {
-            for (let q of s.questions) {
-                const key = s.id + '_' + q.id;
-                if (answers[key] === undefined) answers[key] = null;
-            }
-        }
-        
-        // Подсчёт прогресса
-        let total = 0;
-        let answered = 0;
+    function countProgress() {
+        let total = 0, answered = 0;
         for (let s of skills) {
             for (let q of s.questions) {
                 total++;
-                const key = s.id + '_' + q.id;
-                if (answers[key]) answered++;
+                const key = `${s.id}_${q.id}`;
+                if (userAnswers[key]) answered++;
             }
         }
-        
-        // Вкладки
-        let tabsHtml = '<div class="tabs">';
-        for (let i = 0; i < skills.length; i++) {
-            tabsHtml += `<button class="tab-btn ${i === currentTab ? 'active' : ''}" data-tab="${i}">${skills[i].name}</button>`;
+        return { total, answered };
+    }
+    
+    function renderQuiz() {
+        if (!skills.length) return;
+        // инициализация
+        for (let s of skills) {
+            for (let q of s.questions) {
+                const key = `${s.id}_${q.id}`;
+                if (userAnswers[key] === undefined) userAnswers[key] = null;
+            }
         }
-        tabsHtml += '</div>';
+        const { total, answered } = countProgress();
         
-        // Прогресс
-        tabsHtml += `<div class="progress">📋 Отвечено: ${answered} из ${total}</div>`;
+        let tabsHtml = `<div class="tabs">`;
+        skills.forEach((skill, idx) => {
+            tabsHtml += `<button class="tab-btn ${idx === currentTabIdx ? 'active' : ''}" data-idx="${idx}">${skill.name}</button>`;
+        });
+        tabsHtml += `</div>`;
+        tabsHtml += `<div style="display:flex; justify-content:center;"><div class="progress-indicator">📋 Отвечено: ${answered} из ${total}</div></div>`;
         
-        // Контент текущей вкладки
-        let contentHtml = '';
-        for (let i = 0; i < skills.length; i++) {
-            let skillHtml = '';
-            for (let j = 0; j < skills[i].questions.length; j++) {
-                const q = skills[i].questions[j];
-                const key = skills[i].id + '_' + q.id;
-                const saved = answers[key];
-                
-                skillHtml += `
+        let contents = '';
+        skills.forEach((skill, idx) => {
+            let questionsHtml = '';
+            skill.questions.forEach((q, qn) => {
+                const key = `${skill.id}_${q.id}`;
+                const saved = userAnswers[key];
+                questionsHtml += `
                     <div class="question">
-                        <div class="question-text">${j+1}. ${q.text}</div>
+                        <div class="question-text">${qn+1}. ${q.text}</div>
                         <div class="options">
-                            ${q.options.map((opt, idx) => {
-                                const letter = String.fromCharCode(65 + idx);
-                                const checked = (saved === letter) ? 'checked' : '';
+                            ${q.options.map((opt, optIdx) => {
+                                const letter = String.fromCharCode(65+optIdx);
+                                const checkedAttr = (saved === letter) ? 'checked' : '';
                                 return `
                                     <div class="option">
-                                        <input type="radio" name="${key}" value="${letter}" id="${key}_${letter}" ${checked}>
+                                        <input type="radio" name="${key}" value="${letter}" id="${key}_${letter}" ${checkedAttr}>
                                         <label for="${key}_${letter}"><strong>${letter}.</strong> ${opt}</label>
                                     </div>
                                 `;
@@ -290,190 +395,187 @@
                         </div>
                     </div>
                 `;
-            }
-            contentHtml += `<div class="tab-content ${i === currentTab ? 'active-tab' : ''}" id="tab-${i}">${skillHtml}</div>`;
-        }
+            });
+            contents += `<div class="tab-content ${idx === currentTabIdx ? 'active-tab' : ''}" id="tab-${idx}">${questionsHtml}</div>`;
+        });
         
-        // Кнопки навигации
-        const isFirst = currentTab === 0;
-        const isLast = currentTab === skills.length - 1;
+        const isFirst = currentTabIdx === 0;
+        const isLast = currentTabIdx === skills.length - 1;
+        let nav = `<div class="btn-group">
+            <div><button id="resetAllBtn" class="btn-secondary">⟳ Сбросить ответы</button></div>
+            <div>
+                ${!isFirst ? '<button id="prevTabBtn">◀ Назад</button>' : ''}
+                ${!isLast ? '<button id="nextTabBtn">Далее ▶</button>' : ''}
+                ${isLast ? '<button id="finishQuizBtn" style="background:#2c7a5e;">✅ Завершить и результаты</button>' : ''}
+            </div>
+        </div>`;
         
-        let navHtml = '<div class="btn-group">';
-        navHtml += '<div><button id="resetBtn" class="btn-secondary">⟳ Сбросить все</button></div>';
-        navHtml += '<div>';
-        if (!isFirst) navHtml += '<button id="prevBtn">◀ Назад</button>';
-        if (!isLast) navHtml += '<button id="nextBtn">Далее ▶</button>';
-        if (isLast) navHtml += '<button id="submitBtn" style="background: #2e7d32;">✅ Завершить тест</button>';
-        navHtml += '</div></div>';
+        app.innerHTML = `<div class="card">${tabsHtml}${contents}${nav}</div><footer>Ответьте на все вопросы в каждом блоке. Кнопка "Завершить" появится в последнем разделе.</footer>`;
         
-        app.innerHTML = `<div class="card">${tabsHtml}${contentHtml}${navHtml}</div><footer>Ответьте на все вопросы в каждом блоке</footer>`;
-        
-        // Обработчики радио
+        // radio listeners
         for (let s of skills) {
             for (let q of s.questions) {
-                const key = s.id + '_' + q.id;
+                const key = `${s.id}_${q.id}`;
                 const radios = document.querySelectorAll(`input[name="${key}"]`);
-                radios.forEach(radio => {
-                    radio.addEventListener('change', (e) => {
-                        answers[key] = e.target.value;
-                        render();
+                radios.forEach(r => {
+                    r.addEventListener('change', (e) => {
+                        userAnswers[key] = e.target.value;
+                        // обновим индикатор прогресса без перерисовки всей страницы
+                        const { total: t, answered: a } = countProgress();
+                        const progDiv = document.querySelector('.progress-indicator');
+                        if (progDiv) progDiv.innerText = `📋 Отвечено: ${a} из ${t}`;
                     });
                 });
             }
         }
         
-        // Обработчики вкладок
+        // вкладки
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                currentTab = parseInt(btn.dataset.tab);
+                currentTabIdx = parseInt(btn.dataset.idx);
                 render();
             });
         });
         
-        // Сброс
-        document.getElementById('resetBtn')?.addEventListener('click', () => {
+        document.getElementById('resetAllBtn')?.addEventListener('click', () => {
             if (confirm('Удалить все ответы?')) {
                 for (let s of skills) {
                     for (let q of s.questions) {
-                        const key = s.id + '_' + q.id;
-                        answers[key] = null;
+                        const key = `${s.id}_${q.id}`;
+                        userAnswers[key] = null;
                     }
                 }
                 render();
             }
         });
         
-        // Назад
-        document.getElementById('prevBtn')?.addEventListener('click', () => {
-            if (currentTab > 0) {
-                currentTab--;
+        document.getElementById('prevTabBtn')?.addEventListener('click', () => {
+            if (currentTabIdx > 0) {
+                currentTabIdx--;
                 render();
             }
         });
         
-        // Далее
-        document.getElementById('nextBtn')?.addEventListener('click', () => {
-            const currentSkill = skills[currentTab];
+        document.getElementById('nextTabBtn')?.addEventListener('click', () => {
+            const currentSkill = skills[currentTabIdx];
             let allOk = true;
             for (let q of currentSkill.questions) {
-                const key = currentSkill.id + '_' + q.id;
-                if (!answers[key]) {
-                    allOk = false;
-                    break;
-                }
+                const key = `${currentSkill.id}_${q.id}`;
+                if (!userAnswers[key]) { allOk = false; break; }
             }
             if (!allOk) {
-                alert('Ответьте на все вопросы в этом блоке!');
+                alert(`❌ Ответьте на все вопросы в разделе «${currentSkill.name}» перед переходом.`);
                 return;
             }
-            if (currentTab < skills.length - 1) {
-                currentTab++;
+            if (currentTabIdx < skills.length - 1) {
+                currentTabIdx++;
                 render();
             }
         });
         
-        // Завершение
-        document.getElementById('submitBtn')?.addEventListener('click', async () => {
-            let allOk = true;
+        document.getElementById('finishQuizBtn')?.addEventListener('click', async () => {
+            let allComplete = true;
             for (let s of skills) {
                 for (let q of s.questions) {
-                    const key = s.id + '_' + q.id;
-                    if (!answers[key]) {
-                        allOk = false;
-                        break;
-                    }
+                    const key = `${s.id}_${q.id}`;
+                    if (!userAnswers[key]) { allComplete = false; break; }
                 }
             }
-            if (!allOk) {
-                alert('Ответьте на все вопросы во всех блоках!');
+            if (!allComplete) {
+                alert('❌ Вы ответили не на все вопросы. Проверьте каждый раздел.');
                 return;
             }
-            await calculateResults();
+            await computeAndSendResults();
         });
     }
     
-    async function calculateResults() {
-        let scores = [];
-        let totalEarned = 0;
-        let totalMax = 0;
-        
+    async function computeAndSendResults() {
+        const skillStats = [];
+        let totalEarned = 0, totalMax = 0;
         for (let s of skills) {
             let earned = 0;
             for (let q of s.questions) {
-                const key = s.id + '_' + q.id;
-                if (answers[key] === q.correct) earned++;
+                const key = `${s.id}_${q.id}`;
+                if (userAnswers[key] === q.correct) earned++;
             }
             totalEarned += earned;
             totalMax += s.questions.length;
-            scores.push({
+            skillStats.push({
                 name: s.name,
+                id: s.id,
                 earned: earned,
                 max: s.questions.length,
                 percent: (earned / s.questions.length) * 100
             });
         }
-        
         const totalPercent = (totalEarned / totalMax) * 100;
         
-        let advice = '';
-        if (totalPercent < 40) advice = '🔍 Вам стоит развивать критическое мышление. Изучите основы логики и анализа аргументов.';
-        else if (totalPercent < 70) advice = '🎯 Хороший результат! Продолжайте тренироваться, обращайте внимание на логические ошибки.';
-        else advice = '🏆 Отлично! Вы прекрасно владеете навыками критического мышления!';
+        let adviceMsg = '';
+        let linksPart = '';
+        if (totalPercent < 40) {
+            adviceMsg = '🔍 Вам стоит углубиться в основы: анализируйте аргументы и проверяйте факты. Регулярная практика очень поможет.';
+            linksPart = `<div style="margin-top:12px;">📖 <a href="https://4brain.ru/blog/критическое-мышление/" target="_blank">Статья: развитие критического мышления</a></div>`;
+        } else if (totalPercent < 70) {
+            adviceMsg = '🎯 Хороший результат! Продолжайте тренироваться, обращайте внимание на логические ошибки и достоверность источников.';
+            linksPart = `<div style="margin-top:12px;">💡 Совет: практикуйте разбор научных текстов.</div>`;
+        } else {
+            adviceMsg = '🏆 Превосходно! Вы отлично применяете критическое мышление. Делитесь знаниями с коллегами!';
+            linksPart = `<div style="margin-top:12px;">🌟 Замечательная работа!</div>`;
+        }
         
-        // Отправка в Google Sheets
-        for (let i = 0; i < scores.length; i++) {
+        // отправка в Google Sheets (асинхронно)
+        for (let stat of skillStats) {
             const payload = {
                 session_id: sessionId,
-                skill_id: skills[i].id,
-                score_percent: scores[i].percent,
+                skill_id: stat.id,
+                score_percent: stat.percent,
                 total_score: totalEarned,
                 answers: []
             };
             try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            } catch(e) {}
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
+            } catch(e) { console.warn(e); }
         }
         
-        results = { scores, totalEarned, totalMax, totalPercent, advice };
+        resultsCache = { stats: skillStats, totalEarned, totalMax, totalPercent, adviceMsg, linksPart };
         page = 'results';
         render();
     }
     
     function renderResults() {
-        if (!results) return;
-        
-        let scoresHtml = '';
-        for (let r of results.scores) {
-            scoresHtml += `
-                <div class="result-item">
-                    <div><strong>${r.name}</strong> — ${r.earned} из ${r.max} (${r.percent.toFixed(0)}%)</div>
-                    <div class="bar"><div class="bar-fill" style="width: ${r.percent}%;"></div></div>
+        if (!resultsCache) return;
+        let statsHtml = '';
+        for (let st of resultsCache.stats) {
+            statsHtml += `
+                <div class="skill-result">
+                    <div class="skill-header"><span>${st.name}</span><span>${st.earned}/${st.max} (${st.percent.toFixed(1)}%)</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width: ${st.percent}%;"></div></div>
                 </div>
             `;
         }
-        
-        app.innerHTML = `
+        const html = `
             <div class="card">
-                <div class="total">🎯 Общий результат: ${results.totalEarned} / ${results.totalMax} (${results.totalPercent.toFixed(0)}%)</div>
-                ${scoresHtml}
-                <div class="advice">💬 ${results.advice}</div>
-                <div style="text-align: center;">
-                    <button id="restartBtn">🔄 Пройти заново</button>
+                <div class="total-badge">🎯 Общий результат: ${resultsCache.totalEarned} / ${resultsCache.totalMax} (${resultsCache.totalPercent.toFixed(1)}%)</div>
+                ${statsHtml}
+                <div class="advice">
+                    💬 ${resultsCache.adviceMsg}
+                    ${resultsCache.linksPart}
                 </div>
+                <div style="text-align: center;"><button id="restartTestBtn">🔄 Пройти заново</button></div>
             </div>
-            <footer>Спасибо за участие!</footer>
+            <footer>Результаты сохранены анонимно. Спасибо!</footer>
         `;
-        
-        document.getElementById('restartBtn')?.addEventListener('click', () => {
-            answers = {};
-            currentTab = 0;
+        app.innerHTML = html;
+        document.getElementById('restartTestBtn')?.addEventListener('click', () => {
+            userAnswers = {};
+            currentTabIdx = 0;
             page = 'start';
-            sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
             render();
         });
     }
     
-    loadQuestions();
+    fetchQuestions();
 </script>
 </body>
 </html>
